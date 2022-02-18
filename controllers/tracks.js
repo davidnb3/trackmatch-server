@@ -31,9 +31,12 @@ exports.createMatch = (req, res, next) => {
 };
 
 exports.deleteMatch = (req, res, next) => {
-  // query instead of params? don't know why
-  console.log(req.query.id);
-  Match.findOne({_id: req.query.id}).then((match) => {
-    
-  })
+  const matchId = req.query.id;
+  Match.deleteOne({ _id: matchId })
+    .then(() => {
+      res.status(200).json({ message: "Deleted." });
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
 };
