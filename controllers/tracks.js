@@ -13,12 +13,12 @@ exports.getAllMatches = (req, res, next) => {
 exports.createMatch = (req, res, next) => {
   const match = req.body.match;
   const trackMatch = new Match({
-    firstTitle: match.firstTitle,
-    firstArtist: match.firstArtist,
-    firstImg: "http://localhost:3001/images/logo.png",
-    secondTitle: match.secondTitle,
-    secondArtist: match.secondArtist,
-    secondImg: "http://localhost:3001/images/logo.png",
+    firstTitle: match.firstSelectedTrack.title,
+    firstArtist: match.firstSelectedTrack.artist,
+    firstImg: match.firstSelectedTrack.uri,
+    secondTitle: match.secondSelectedTrack.title,
+    secondArtist: match.secondSelectedTrack.artist,
+    secondImg: match.secondSelectedTrack.uri,
   });
   trackMatch
     .save()
