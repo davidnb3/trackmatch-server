@@ -11,14 +11,14 @@ exports.getAllMatches = (req, res, next) => {
 };
 
 exports.createMatch = (req, res, next) => {
-  const match = req.body.match;
+  const match = req.body.trackMatch;
   const trackMatch = new Match({
     firstTitle: match.firstSelectedTrack.title,
     firstArtist: match.firstSelectedTrack.artist,
-    firstImg: match.firstSelectedTrack.uri,
+    firstCoverImg: match.firstSelectedTrack.albumUrl,
     secondTitle: match.secondSelectedTrack.title,
     secondArtist: match.secondSelectedTrack.artist,
-    secondImg: match.secondSelectedTrack.uri,
+    secondCoverImg: match.secondSelectedTrack.albumUrl,
   });
   trackMatch
     .save()
