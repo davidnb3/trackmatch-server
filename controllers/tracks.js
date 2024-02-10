@@ -1,4 +1,4 @@
-const Match = require("../models/trackmatch");
+const Match = require("../models/schemas");
 
 exports.getAllMatches = (req, res, next) => {
   Match.find()

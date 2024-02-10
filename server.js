@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-const authRoutes = require("./routes/auth");
+// const authRoutes = require("./routes/auth");
 const trackRoutes = require("./routes/tracks");
 
 app.use(cors());
@@ -11,7 +11,7 @@ app.use(express.json());
 
 mongoose
   .connect(
-    "mongodb+srv://Kosmical:uXh34joKST8Wrex9@cluster0.krgmy.mongodb.net/test?retryWrites=true&w=majority"
+    "mongodb+srv://david:NBMiDuahiZxPvDK2@trackmatchcluster0.dazfjrx.mongodb.net/?retryWrites=true&w=majority"
   )
   .then(() => {
     console.log("Successfully connected to MongoDB Atlas!");
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 
 //___ROUTES
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use("/auth", authRoutes);
+// app.use("/auth", authRoutes);
 app.use("/tracks", trackRoutes);
 
 app.listen(3001);
