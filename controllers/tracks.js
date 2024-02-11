@@ -21,14 +21,30 @@ exports.getAllTrackMatches = (req, res, next) => {
     });
 };
 
-exports.createTrackMatch = (req, res, next) => {
-  const trackMatch = new TrackMatch({
-    tracks: req.body.tracks, // assuming this is an array of track IDs
-  });
-  trackMatch
-    .save()
-    .then(() => {
-      res.status(201).json({ message: "TrackMatch created successfully" });
+exports.createTrackMatch = async (req, res, next) => {
+  try {
+    const trackData = req.body.tracks; // assuming this is an array of track data
+    const tracks = await Track.insertMany(trackData);
+    const trackIds = tracks.map((track) => track._id);
+    const trackMatch = new TrackMatch({ tracks: trackIds });
+    await trackMatch.save();
+    res.status(201).json({ message: "TrackMatch created successfully" });
+  } catch (err) {
+    res.status(400).json({ error: err });
+  }
+};
+
+exports.addTracksToTrackMatch = (req, res, next) => {
+  const { trackMatchId, tracks } = req.body; // tracks is an array of track IDs
+  TrackMatch.findByIdAndUpdate(
+    trackMatchId,
+    { $push: { tracks: { $each: tracks } } },
+    { new: true }
+  )
+    .then((trackMatch) => {
+      res
+        .status(200)
+        .json({ message: "Tracks added successfully", trackMatch });
     })
     .catch((err) => {
       res.status(400).json({ error: err });

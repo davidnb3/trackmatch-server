@@ -4,6 +4,7 @@ const trackSchema = new mongoose.Schema({
   name: String,
   artist: String,
   key: String,
+  cover: String,
 });
 
 const trackMatchSchema = new mongoose.Schema({

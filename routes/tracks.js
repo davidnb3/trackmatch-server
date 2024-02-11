@@ -3,7 +3,7 @@ const router = express.Router();
 
 const trackCtrl = require("../controllers/tracks");
 
-router.get("/tracks", trackCtrl.getAllTracks);
+router.get("", trackCtrl.getAllTracks);
 router.get("/trackmatches", trackCtrl.getAllTrackMatches);
 router.post("/trackmatches", trackCtrl.createTrackMatch);
 
