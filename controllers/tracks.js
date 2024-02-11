@@ -1,42 +1,36 @@
-const Match = require("../models/schemas");
+const { Track, TrackMatch } = require("../models/schemas");
 
-exports.getAllMatches = (req, res, next) => {
-  Match.find()
-    .then((matches) => {
-      res.status(200).json(matches);
+exports.getAllTracks = (req, res, next) => {
+  Track.find()
+    .then((tracks) => {
+      res.status(200).json(tracks);
     })
     .catch((error) => {
       res.status(400).json({ error: error });
     });
 };
 
-exports.createMatch = (req, res, next) => {
-  const match = req.body.trackMatch;
-  const trackMatch = new Match({
-    firstTitle: match.firstSelectedTrack.title,
-    firstArtist: match.firstSelectedTrack.artist,
-    firstCoverImg: match.firstSelectedTrack.albumUrl,
-    secondTitle: match.secondSelectedTrack.title,
-    secondArtist: match.secondSelectedTrack.artist,
-    secondCoverImg: match.secondSelectedTrack.albumUrl,
+exports.getAllTrackMatches = (req, res, next) => {
+  TrackMatch.find()
+    .populate("tracks")
+    .then((trackMatches) => {
+      res.status(200).json(trackMatches);
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
+};
+
+exports.createTrackMatch = (req, res, next) => {
+  const trackMatch = new TrackMatch({
+    tracks: req.body.tracks, // assuming this is an array of track IDs
   });
   trackMatch
     .save()
     .then(() => {
-      res.status(201).json({ message: "Match created successfully" });
+      res.status(201).json({ message: "TrackMatch created successfully" });
     })
     .catch((err) => {
       res.status(400).json({ error: err });
-    });
-};
-
-exports.deleteMatch = (req, res, next) => {
-  const matchId = req.query.id;
-  Match.deleteOne({ _id: matchId })
-    .then(() => {
-      res.status(200).json({ message: "Deleted." });
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error });
     });
 };
