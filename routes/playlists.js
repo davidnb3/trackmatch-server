@@ -3,7 +3,8 @@ const router = express.Router();
 
 const trackCtrl = require("../controllers/playlists");
 
-router.get("/playlists", trackCtrl.getAllPlaylists);
-router.post("/playlists", trackCtrl.createPlaylist);
+router.get("", trackCtrl.getAllPlaylists);
+router.get("/:id", playlistCtrl.getPlaylistById);
+router.post("", trackCtrl.createPlaylist);
 
 module.exports = router;
