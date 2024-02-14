@@ -30,10 +30,31 @@ exports.createPlaylist = (req, res, next) => {
 
 exports.getPlaylistById = (req, res, next) => {
   Playlist.findById(req.params.id)
+    .populate({
+      path: "trackMatches",
+      populate: {
+        path: "tracks",
+      },
+    })
     .then((playlist) => {
       if (!playlist) {
         return res.status(404).json({ error: "Playlist not found" });
       }
+      res.status(200).json(playlist);
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
+};
+
+exports.addTrackMatchToPlaylist = (req, res, next) => {
+  const { trackMatchId } = req.body;
+  Playlist.findByIdAndUpdate(
+    req.params.id,
+    { $push: { trackMatches: trackMatchId } },
+    { new: true }
+  )
+    .then((playlist) => {
       res.status(200).json(playlist);
     })
     .catch((error) => {

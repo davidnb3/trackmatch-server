@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const trackCtrl = require("../controllers/playlists");
+const playlistCtrl = require("../controllers/playlists");
 
-router.get("", trackCtrl.getAllPlaylists);
+router.get("", playlistCtrl.getAllPlaylists);
 router.get("/:id", playlistCtrl.getPlaylistById);
-router.post("", trackCtrl.createPlaylist);
+router.post("", playlistCtrl.createPlaylist);
+router.post("/:id", playlistCtrl.addTrackMatchToPlaylist);
 
 module.exports = router;
