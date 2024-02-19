@@ -7,5 +7,7 @@ router.get("", playlistCtrl.getAllPlaylists);
 router.get("/:id", playlistCtrl.getPlaylistById);
 router.post("", playlistCtrl.createPlaylist);
 router.post("/:id", playlistCtrl.addTrackMatchToPlaylist);
+router.put("/:id", playlistCtrl.updatePlaylist);
+router.delete("/:id", playlistCtrl.deletePlaylist);
 
 module.exports = router;

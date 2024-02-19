@@ -61,3 +61,29 @@ exports.addTrackMatchToPlaylist = (req, res, next) => {
       res.status(400).json({ error: error });
     });
 };
+
+exports.updatePlaylist = (req, res, next) => {
+  const { name, description } = req.body;
+
+  Playlist.findByIdAndUpdate(
+    req.params.id,
+    { name, description },
+    { new: true }
+  )
+    .then((playlist) => {
+      res.status(200).json(playlist);
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
+};
+
+exports.deletePlaylist = (req, res, next) => {
+  Playlist.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(200).json({ message: "Playlist deleted successfully" });
+    })
+    .catch((error) => {
+      res.status(400).json({ error: error });
+    });
+};
