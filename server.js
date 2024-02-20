@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 //___ROUTES
 app.use("/images", express.static(path.join(__dirname, "images")));
 // app.use("/auth", authRoutes);
-app.use("/tracks", trackRoutes);
+app.use("/trackmatches", trackRoutes);
 app.use("/playlists", playlistRoutes);
 
 app.listen(3001);

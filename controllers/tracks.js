@@ -1,15 +1,5 @@
 const { Track, TrackMatch } = require("../models/schemas");
 
-exports.getAllTracks = (req, res, next) => {
-  Track.find()
-    .then((tracks) => {
-      res.status(200).json(tracks);
-    })
-    .catch((error) => {
-      res.status(400).json({ error: error });
-    });
-};
-
 exports.getAllTrackMatches = (req, res, next) => {
   TrackMatch.find()
     .populate("tracks")
@@ -103,5 +93,22 @@ exports.updateTrackMatch = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err });
+  }
+};
+
+exports.deleteTrackMatch = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const trackMatch = await TrackMatch.findByIdAndDelete(id);
+
+    if (!trackMatch) {
+      return res
+        .status(404)
+        .json({ message: "No TrackMatch found with this id" });
+    }
+
+    res.status(200).json({ message: "TrackMatch deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

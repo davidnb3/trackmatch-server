@@ -3,9 +3,9 @@ const router = express.Router();
 
 const trackCtrl = require("../controllers/tracks");
 
-router.get("", trackCtrl.getAllTracks);
-router.get("/trackmatches", trackCtrl.getAllTrackMatches);
-router.post("/trackmatches", trackCtrl.createTrackMatch);
-router.put("/trackmatches/:id", trackCtrl.updateTrackMatch);
+router.get("", trackCtrl.getAllTrackMatches);
+router.post("", trackCtrl.createTrackMatch);
+router.put("/:id", trackCtrl.updateTrackMatch);
+router.delete("/:id", trackCtrl.deleteTrackMatch);
 
 module.exports = router;
