@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const trackCtrl = require("../controllers/tracks");
+const trackCtrl = require("../controllers/trackmatches");
 
 router.get("", trackCtrl.getAllTrackMatches);
 router.post("", trackCtrl.createTrackMatch);

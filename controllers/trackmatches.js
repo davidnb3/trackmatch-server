@@ -62,8 +62,6 @@ exports.updateTrackMatch = async (req, res, next) => {
       })
     );
 
-    console.log("newTrackIds", newTrackIds);
-
     // Get the old track IDs
     const oldTrackMatch = await TrackMatch.findById(req.params.id);
     const oldTrackIds = oldTrackMatch.tracks;
@@ -72,8 +70,6 @@ exports.updateTrackMatch = async (req, res, next) => {
     const removedTrackIds = oldTrackIds.filter(
       (id) => !newTrackIds.includes(id.toString())
     );
-
-    console.log("removedTrackIds", removedTrackIds);
 
     // Delete the removed tracks
     await Track.deleteMany({ _id: { $in: removedTrackIds } });
@@ -84,8 +80,6 @@ exports.updateTrackMatch = async (req, res, next) => {
       { tracks: newTrackIds },
       { new: true }
     );
-
-    console.log("updatedTrackMatch", updatedTrackMatch);
 
     res
       .status(200)
