@@ -71,7 +71,9 @@ exports.updatePlaylist = (req, res, next) => {
     { new: true }
   )
     .then((playlist) => {
-      res.status(200).json(playlist);
+      res
+        .status(200)
+        .json({ message: "Playlist updated successfully", playlist });
     })
     .catch((error) => {
       res.status(400).json({ error: error });
