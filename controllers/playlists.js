@@ -30,6 +30,13 @@ exports.createPlaylist = (req, res, next) => {
 
 exports.getPlaylistById = (req, res, next) => {
   Playlist.findById(req.params.id)
+    .populate({
+      path: "trackMatches",
+      populate: {
+        path: "tracks",
+        model: "Track",
+      },
+    })
     .then((playlist) => {
       if (!playlist) {
         return res.status(404).json({ error: "Playlist not found" });
