@@ -1,10 +1,22 @@
 const { Track, TrackMatch, Playlist } = require("../models/schemas");
 
 exports.getAllTrackMatches = (req, res, next) => {
-  TrackMatch.find()
-    .populate("tracks")
-    .then((trackMatches) => {
-      res.status(200).json(trackMatches);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 50;
+
+  TrackMatch.countDocuments()
+    .then((count) => {
+      const totalPages = Math.ceil(count / limit);
+      TrackMatch.find()
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .populate("tracks")
+        .then((trackMatches) => {
+          res.status(200).json({ trackMatches, totalPages });
+        })
+        .catch((error) => {
+          res.status(400).json({ error: error });
+        });
     })
     .catch((error) => {
       res.status(400).json({ error: error });

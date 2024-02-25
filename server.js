@@ -12,7 +12,7 @@ app.use(express.json());
 
 mongoose
   .connect(
-    "mongodb+srv://david:NBMiDuahiZxPvDK2@trackmatchcluster0.dazfjrx.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://david:r0BoB80sCXDtRxty@trackmatchcluster0.dazfjrx.mongodb.net/?retryWrites=true&w=majority&appName=TrackMatchCluster0"
   )
   .then(() => {
     console.log("Successfully connected to MongoDB Atlas!");
