@@ -13,7 +13,11 @@ const trackMatchSchema = new mongoose.Schema({
 
 const playlistSchema = new mongoose.Schema({
   name: String,
-  trackMatches: [{ type: mongoose.Schema.Types.ObjectId, ref: "TrackMatch" }],
+  trackMatches: [
+    {
+      trackMatch: { type: mongoose.Schema.Types.ObjectId, ref: "TrackMatch" },
+    },
+  ],
   description: String,
 });
 
