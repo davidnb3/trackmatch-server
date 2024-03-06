@@ -45,9 +45,9 @@ exports.createTrackMatch = async (req, res, next) => {
 };
 
 exports.addTracksToTrackMatch = (req, res, next) => {
-  const { trackMatchId, tracks } = req.body; // tracks is an array of track IDs
+  const { trackMatch, tracks } = req.body; // tracks is an array of track IDs
   TrackMatch.findByIdAndUpdate(
-    trackMatchId,
+    trackMatch,
     { $push: { tracks: { $each: tracks } } },
     { new: true }
   )

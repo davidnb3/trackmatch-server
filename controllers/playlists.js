@@ -1,4 +1,5 @@
 const { Playlist } = require("../models/schemas");
+const mongoose = require("mongoose");
 
 exports.getAllPlaylists = (req, res, next) => {
   Playlist.find()
@@ -13,8 +14,8 @@ exports.getAllPlaylists = (req, res, next) => {
 exports.createPlaylist = (req, res, next) => {
   const playlist = new Playlist({
     name: req.body.name,
-    trackMatches: req.body.trackMatches.map((trackMatchId) => ({
-      trackMatch: trackMatchId,
+    trackMatches: req.body.trackMatches.map((trackMatch) => ({
+      trackMatch: trackMatch,
     })),
     description: req.body.description,
   });
@@ -33,13 +34,14 @@ exports.createPlaylist = (req, res, next) => {
 exports.getPlaylistById = (req, res, next) => {
   Playlist.findById(req.params.id)
     .populate({
-      path: "trackMatches.trackMatchId",
+      path: "trackMatches.trackMatch",
       populate: {
         path: "tracks",
         model: "Track",
       },
     })
     .then((playlist) => {
+      console.log(1, playlist);
       if (!playlist) {
         return res.status(404).json({ error: "Playlist not found" });
       }
@@ -51,22 +53,18 @@ exports.getPlaylistById = (req, res, next) => {
 };
 
 exports.addTrackMatchToPlaylist = (req, res, next) => {
-  const { trackMatchId, confirmed } = req.body;
-  console.log(`trackMatchId: ${trackMatchId}, confirmed: ${confirmed}`);
-  console.log(req.params.id);
+  const { trackMatch, confirmed } = req.body;
+
   Playlist.findById(req.params.id)
     .then((playlist) => {
-      console.log(playlist);
       if (
-        playlist.trackMatches.some(
-          (tm) => tm.trackMatchId.toString() === trackMatchId
-        ) &&
+        playlist.trackMatches.some((tm) => tm._id.toString() === trackMatch) &&
         !confirmed
       ) {
         res.status(200).json({ message: "TrackMatch already in playlist" });
       } else {
-        const trackMatch = { trackMatchId };
-        playlist.trackMatches.push(trackMatch);
+        playlist.trackMatches.push({ trackMatch: trackMatch });
+        console.log("new playlist", playlist);
         playlist
           .save()
           .then(() => {
@@ -114,12 +112,14 @@ exports.deletePlaylist = (req, res, next) => {
 
 exports.removeTrackMatchFromPlaylist = (req, res, next) => {
   const { instanceId } = req.body;
+  console.log("id", instanceId);
   Playlist.findOneAndUpdate(
     { _id: req.params.id },
-    { $pull: { trackMatches: { _id: instanceId } } },
+    { $pull: { trackMatches: { _id: mongoose.Types.ObjectId(instanceId) } } },
     { new: true }
   )
-    .then(() => {
+    .then((playlist) => {
+      console.log("playlist", playlist);
       res
         .status(200)
         .json({ message: "TrackMatch removed successfully from playlist" });

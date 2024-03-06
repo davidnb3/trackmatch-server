@@ -16,6 +16,7 @@ const playlistSchema = new mongoose.Schema({
   trackMatches: [
     {
       trackMatch: { type: mongoose.Schema.Types.ObjectId, ref: "TrackMatch" },
+      _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
     },
   ],
   description: String,
