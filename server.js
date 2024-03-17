@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-// const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth");
 const trackRoutes = require("./routes/trackmatches");
 const playlistRoutes = require("./routes/playlists");
 
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 
 //___ROUTES
 app.use("/images", express.static(path.join(__dirname, "images")));
-// app.use("/auth", authRoutes);
+app.use("/auth", authRoutes);
 app.use("/trackmatches", trackRoutes);
 app.use("/playlists", playlistRoutes);
 

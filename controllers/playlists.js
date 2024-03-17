@@ -41,7 +41,6 @@ exports.getPlaylistById = (req, res, next) => {
       },
     })
     .then((playlist) => {
-      console.log(1, playlist);
       if (!playlist) {
         return res.status(404).json({ error: "Playlist not found" });
       }
@@ -58,13 +57,14 @@ exports.addTrackMatchToPlaylist = (req, res, next) => {
   Playlist.findById(req.params.id)
     .then((playlist) => {
       if (
-        playlist.trackMatches.some((tm) => tm._id.toString() === trackMatch) &&
+        playlist.trackMatches.some(
+          (tm) => tm.trackMatch._id.toString() === trackMatch
+        ) &&
         !confirmed
       ) {
         res.status(200).json({ message: "TrackMatch already in playlist" });
       } else {
         playlist.trackMatches.push({ trackMatch: trackMatch });
-        console.log("new playlist", playlist);
         playlist
           .save()
           .then(() => {
@@ -112,14 +112,13 @@ exports.deletePlaylist = (req, res, next) => {
 
 exports.removeTrackMatchFromPlaylist = (req, res, next) => {
   const { instanceId } = req.body;
-  console.log("id", instanceId);
+
   Playlist.findOneAndUpdate(
     { _id: req.params.id },
     { $pull: { trackMatches: { _id: mongoose.Types.ObjectId(instanceId) } } },
     { new: true }
   )
-    .then((playlist) => {
-      console.log("playlist", playlist);
+    .then(() => {
       res
         .status(200)
         .json({ message: "TrackMatch removed successfully from playlist" });

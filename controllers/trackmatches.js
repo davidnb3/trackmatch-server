@@ -132,8 +132,8 @@ exports.deleteTrackMatch = async (req, res) => {
 
     // Remove the TrackMatch ID from all Playlists
     await Playlist.updateMany(
-      { trackMatches: trackMatch._id },
-      { $pull: { trackMatches: trackMatch._id } }
+      { "trackMatches.trackMatch": trackMatch._id },
+      { $pull: { trackMatches: { trackMatch: trackMatch._id } } }
     );
 
     // Delete the TrackMatch
