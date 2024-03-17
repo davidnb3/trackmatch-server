@@ -54,8 +54,8 @@ const fetch = require("node-fetch");
 const { URLSearchParams } = require("url");
 
 exports.getSpotifyAccessToken = async (req, res, next) => {
-  const clientId = "YOUR_CLIENT_ID";
-  const clientSecret = "YOUR_CLIENT_SECRET";
+  const clientId = "bcbf898173824f97a8f4d4cfbd642f06";
+  const clientSecret = "c5fa29adf8d44051ad9bef1c1cbe5785";
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
 
