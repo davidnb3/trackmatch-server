@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const trackSchema = new mongoose.Schema({
   name: String,
   artist: String,
+  artistSpotifyId: String,
   key: String,
   cover: String,
 });
