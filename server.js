@@ -4,7 +4,8 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const authRoutes = require("./routes/auth");
-const trackRoutes = require("./routes/trackmatches");
+const trackMatchRoutes = require("./routes/trackmatches");
+const trackRoutes = require("./routes/tracks");
 const playlistRoutes = require("./routes/playlists");
 
 app.use(cors());
@@ -38,7 +39,8 @@ app.use((req, res, next) => {
 //___ROUTES
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/auth", authRoutes);
-app.use("/trackmatches", trackRoutes);
+app.use("/trackmatches", trackMatchRoutes);
+app.use("/tracks", trackRoutes);
 app.use("/playlists", playlistRoutes);
 
 app.listen(3001);
