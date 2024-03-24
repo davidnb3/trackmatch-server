@@ -9,15 +9,17 @@ exports.getAllTracks = async (req, res) => {
   }
 };
 
-exports.deleteTrackById = async (req, res) => {
+exports.deleteAllTrackByName = async (req, res) => {
   try {
-    const track = await Track.findByIdAndDelete(req.params.id);
+    const result = await Track.deleteMany({ name: req.params.name });
 
-    if (!track) {
-      return res.status(404).json({ message: "No track found with this id" });
+    if (result.n === 0) {
+      return res
+        .status(404)
+        .json({ message: "No tracks found with this name" });
     }
 
-    res.status(200).json({ message: "Track deleted successfully" });
+    res.status(200).json({ message: "Tracks deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
